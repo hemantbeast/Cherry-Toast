@@ -382,8 +382,7 @@ class CherryToast extends StatefulWidget {
   _CherryToastState createState() => _CherryToastState();
 }
 
-class _CherryToastState extends State<CherryToast>
-    with TickerProviderStateMixin {
+class _CherryToastState extends State<CherryToast> with TickerProviderStateMixin {
   late Animation<Offset> offsetAnimation;
   late Animation<Offset> disabledAnimationOffset;
   late AnimationController slideController;
@@ -509,9 +508,7 @@ class _CherryToastState extends State<CherryToast>
   @override
   Widget build(BuildContext context) {
     return SlideTransition(
-      position: widget.disableToastAnimation
-          ? disabledAnimationOffset
-          : offsetAnimation,
+      position: widget.disableToastAnimation ? disabledAnimationOffset : offsetAnimation,
       child: Directionality(
         textDirection: widget.textDirection,
         child: renderCherryToastContent(context),
@@ -530,10 +527,7 @@ class _CherryToastState extends State<CherryToast>
                   color: Theme.of(context).colorScheme.surface,
                   boxShadow: [
                     _createToastBoxShadow(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withOpacity(0.12),
+                      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.12),
                     ),
                   ],
                 )
@@ -551,10 +545,7 @@ class _CherryToastState extends State<CherryToast>
                 Expanded(
                   flex: 2,
                   child: Row(
-                    crossAxisAlignment:
-                        widget.description == null && widget.action == null
-                            ? CrossAxisAlignment.center
-                            : CrossAxisAlignment.start,
+                    crossAxisAlignment: widget.description == null && widget.action == null ? CrossAxisAlignment.center : CrossAxisAlignment.start,
                     children: [
                       //TODO refactor `iconWidget` and `titleWidget` to avoid duplication
                       if (widget.iconWidget != null)
@@ -628,31 +619,26 @@ class _CherryToastState extends State<CherryToast>
           textDirection: widget.textDirection,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               if (widget.title != null) widget.title!,
-              if (widget.description != null)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    widget.description!,
-                  ],
+              if (widget.description != null) ...{
+                const SizedBox(
+                  height: 5,
                 ),
-              if (widget.action != null)
-                Column(
-                  children: [
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    InkWell(
-                      onTap: () {
-                        widget.actionHandler?.call();
-                      },
-                      child: widget.action,
-                    ),
-                  ],
+                widget.description!,
+              },
+              if (widget.action != null) ...{
+                const SizedBox(
+                  height: 5,
                 ),
+                InkWell(
+                  onTap: () {
+                    widget.actionHandler?.call();
+                  },
+                  child: widget.action,
+                ),
+              },
             ],
           ),
         ),
